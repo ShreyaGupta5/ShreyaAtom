@@ -217,12 +217,9 @@ router.get('/stats', async (req, res) => {
 app.use('/api', router);
 app.use('/.netlify/functions/api', router);
 
-// Serve static assets from the React frontend build
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
-
-// Wildcard fallback middleware to serve index.html for React Router
+// Fallback route for non-API requests
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+  res.json({ message: "AtomQuest Compliance API Gateway is active." });
 });
 
 module.exports = app;
