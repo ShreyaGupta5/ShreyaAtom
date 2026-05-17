@@ -723,6 +723,58 @@ option {
   margin-bottom: 28px;
 }
 
+/* Custom grid and flex classes replacing inline styles */
+.stats-bar-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1.2fr;
+  gap: 32px;
+  margin-bottom: 32px;
+  padding: 20px 24px;
+  align-items: center;
+  border: 1px solid rgba(0, 245, 212, 0.2);
+}
+
+.goal-kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 20px;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+
+.mgr-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.mgr-overview-stats-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1.2fr;
+  gap: 24px;
+  padding: 20px 24px;
+  align-items: center;
+}
+
+.mgr-graph-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr;
+  gap: 24px;
+  padding: 20px 24px;
+  align-items: center;
+  height: 100%;
+}
+
+.emp-banner-stats {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
 /* ==========================================================================
    RESPONSIVE DESIGN (MEDIA QUERIES)
    ========================================================================== */
@@ -816,6 +868,46 @@ option {
     padding: 20px;
   }
   
+  .emp-banner-stats {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+  }
+  
+  .emp-banner-divider {
+    display: none;
+  }
+  
+  .stats-bar-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 16px;
+  }
+  
+  .goal-kpi-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 14px;
+  }
+  
+  .mgr-overview-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .mgr-overview-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    text-align: center;
+  }
+  
+  .mgr-graph-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
   .mgr-stats-row, .admin-top-metrics {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
@@ -856,5 +948,10 @@ option {
   
   .main-content, .main-workspace {
     padding: 16px 12px;
+  }
+  
+  .emp-banner-stats {
+    flex-direction: column;
+    gap: 12px;
   }
 }

@@ -47,13 +47,13 @@ const Navbar = ({ user, onLogout }) => {
 
         <div className="navbar-links">
           <button className={`nav-link ${location.pathname === '/' ? 'active' : ''}`} onClick={() => navigate('/')}>
-            <Home size={16} /> Home
+            <Home size={16} /> <span>Home</span>
           </button>
           <button className="nav-link" onClick={() => { navigate('/'); setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 100); }}>
-            <Info size={16} /> About
+            <Info size={16} /> <span>About</span>
           </button>
           <button className="nav-link" onClick={() => { navigate('/'); setTimeout(() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }), 100); }}>
-            <Target size={16} /> Portal Info
+            <Target size={16} /> <span>Portal Info</span>
           </button>
         </div>
 

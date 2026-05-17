@@ -128,7 +128,7 @@ const Dashboard = ({ user, onLogout }) => {
           </header>
 
           {/* Allocation Statistics Bar */}
-          <div className="glass-card" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1.2fr', gap: '32px', marginBottom: '32px', padding: '20px 24px', alignItems: 'center', border: '1px solid rgba(0, 245, 212, 0.2)' }}>
+          <div className="glass-card stats-bar-grid">
             <div>
               <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Weightage Allocation</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '6px' }}>
@@ -198,7 +198,7 @@ const Dashboard = ({ user, onLogout }) => {
                   )}
 
                   {/* Structured KPI Specs Grid */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr 1fr', gap: '24px', background: 'rgba(7, 11, 19, 0.4)', border: '1px solid rgba(0, 245, 212, 0.1)', padding: '16px 20px', borderRadius: '12px', fontSize: '0.85rem' }}>
+                  <div className="goal-kpi-grid">
                     <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                       <div style={{ padding: '6px', background: 'rgba(0, 245, 212, 0.1)', borderRadius: '6px', color: 'var(--primary-color)' }}>
                         <Target size={16} />
@@ -261,8 +261,8 @@ const Dashboard = ({ user, onLogout }) => {
           </header>
 
           {/* Manager Overview Dashboard Bar */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '32px' }}>
-            <div className="glass-card" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1.2fr', gap: '24px', padding: '20px 24px', alignItems: 'center' }}>
+          <div className="mgr-overview-grid">
+            <div className="glass-card mgr-overview-stats-grid">
               <div>
                 <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Pending Audits</span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '6px' }}>
@@ -287,7 +287,7 @@ const Dashboard = ({ user, onLogout }) => {
             </div>
 
             {/* Glowing SVG Bar Chart Panel */}
-            <div className="glass-card" style={{ display: 'grid', gridTemplateColumns: '1.2fr 2fr', gap: '24px', padding: '20px 24px', alignItems: 'center', height: '100%' }}>
+            <div className="glass-card mgr-graph-grid">
               <div style={{ display: 'grid', gap: '12px' }}>
                 <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>Goal Distribution</span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -400,7 +400,7 @@ const Dashboard = ({ user, onLogout }) => {
                   </div>
 
                   {/* Structured KPI Specs Grid */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr 1fr', gap: '24px', background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255,255,255,0.04)', padding: '16px 20px', borderRadius: '12px', fontSize: '0.85rem' }}>
+                  <div className="goal-kpi-grid">
                     <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                       <div style={{ padding: '6px', background: 'rgba(255,255,255,0.04)', borderRadius: '6px', color: 'var(--text-muted)' }}>
                         <Target size={16} />
@@ -479,7 +479,7 @@ const Dashboard = ({ user, onLogout }) => {
               <h2 style={{ margin: 0, fontSize: '1.2rem' }}>{user.name}'s Goal Sheet</h2>
               <p style={{ margin: '4px 0 0 0', color: 'var(--text-muted)', fontSize: '0.88rem' }}>Manage your corporate-aligned targets and track approval states</p>
             </div>
-            <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+            <div className="emp-banner-stats">
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: '1.5rem', fontWeight: 700, color: totalWeightage === 100 ? 'var(--success)' : 'var(--warning)' }}>{totalWeightage}%</div>
                 <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Weightage</div>
@@ -524,7 +524,7 @@ const Dashboard = ({ user, onLogout }) => {
                     </div>
                   )}
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1fr', gap: '20px', background: 'rgba(15, 23, 42, 0.4)', border: '1px solid rgba(148,163,184,0.08)', padding: '16px 20px', borderRadius: '12px', fontSize: '0.85rem' }}>
+                  <div className="goal-kpi-grid">
                     <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                       <div style={{ padding: '6px', background: 'rgba(129,140,248,0.1)', borderRadius: '8px', color: 'var(--primary-color)' }}>
                         <Target size={16} />
@@ -582,7 +582,7 @@ const Dashboard = ({ user, onLogout }) => {
           </header>
 
           {/* Stats Cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
+          <div className="mgr-stats-row">
             {[
               { label: 'Total Goals', value: teamGoals.length, icon: '📋', color: 'var(--primary-color)' },
               { label: 'Pending Review', value: pendingGoals.length, icon: '⏳', color: 'var(--warning)' },
@@ -634,7 +634,7 @@ const Dashboard = ({ user, onLogout }) => {
                   </div>
 
                   {/* KPI row */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1fr', gap: '20px', background: 'rgba(15, 23, 42, 0.4)', border: '1px solid rgba(148,163,184,0.08)', padding: '16px 20px', borderRadius: '12px', fontSize: '0.85rem' }}>
+                  <div className="goal-kpi-grid">
                     <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                       <div style={{ padding: '6px', background: 'rgba(129,140,248,0.1)', borderRadius: '8px', color: 'var(--primary-color)' }}>
                         <Target size={16} />
