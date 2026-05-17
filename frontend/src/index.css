@@ -722,3 +722,139 @@ option {
   gap: 20px;
   margin-bottom: 28px;
 }
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MEDIA QUERIES)
+   ========================================================================== */
+
+/* Tablet & Mobile (Screens up to 1024px) */
+@media (max-width: 1024px) {
+  .about-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr 1fr;
+    height: auto;
+  }
+  
+  .service-card {
+    height: 250px;
+  }
+  
+  .emp-goals-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .mgr-kanban {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .admin-charts-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .main-content, .main-workspace {
+    padding: 24px 20px;
+  }
+}
+
+/* Mobile Screens (Screens up to 768px) */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .navbar-container {
+    padding: 0 16px;
+  }
+  
+  .logo-text {
+    font-size: 1.1rem;
+  }
+  
+  .navbar-links {
+    gap: 16px;
+  }
+  
+  .nav-link span {
+    display: none; /* Hide text, show only icons for links */
+  }
+  
+  .user-name-nav {
+    display: none; /* Hide user name to save space */
+  }
+  
+  .user-menu {
+    padding: 4px;
+  }
+  
+  .dash-topbar {
+    padding: 8px 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .dash-tab {
+    padding: 8px 14px;
+    flex-shrink: 0;
+  }
+  
+  .emp-banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 20px;
+  }
+  
+  .mgr-stats-row, .admin-top-metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .about-section {
+    padding: 60px 16px;
+  }
+  
+  .about-text h2 {
+    font-size: 2rem;
+  }
+}
+
+/* Extremely Small Mobile Screens (up to 480px) */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .mgr-stats-row, .admin-top-metrics {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .navbar-actions {
+    gap: 8px;
+  }
+  
+  .btn-logout {
+    margin-left: 4px;
+    padding-left: 8px;
+  }
+  
+  .main-content, .main-workspace {
+    padding: 16px 12px;
+  }
+}
