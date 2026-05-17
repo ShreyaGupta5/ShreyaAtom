@@ -153,7 +153,7 @@ const Navbar = ({ user, onLogout }) => {
             </>
           ) : (
             <div style={{ display: 'flex', gap: '12px' }}>
-              <button className="btn btn-secondary" style={{ padding: '8px 16px' }} onClick={() => alert('Sign up is currently disabled for this hackathon demo. Please use the provided demo accounts in the Login screen.')}>Sign Up</button>
+              <button className="btn btn-secondary btn-signup-nav" style={{ padding: '8px 16px' }} onClick={() => alert('Sign up is currently disabled for this hackathon demo. Please use the provided demo accounts in the Login screen.')}>Sign Up</button>
               <button className="btn btn-primary" style={{ padding: '8px 16px' }} onClick={() => navigate('/login')}>Login</button>
             </div>
           )}

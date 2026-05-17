@@ -745,6 +745,12 @@ option {
   font-size: 0.85rem;
 }
 
+.goal-kpi-grid > * {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .mgr-overview-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -812,6 +818,25 @@ option {
   .main-content, .main-workspace {
     padding: 24px 20px;
   }
+  
+  .emp-banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 20px;
+  }
+  
+  .emp-banner-stats {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+  }
+  
+  .emp-banner-divider {
+    display: none;
+  }
 }
 
 /* Mobile Screens (Screens up to 768px) */
@@ -844,8 +869,20 @@ option {
     display: none; /* Hide user name to save space */
   }
   
+  .user-info-nav {
+    display: none; /* Hide name and role completely on mobile */
+  }
+  
   .user-menu {
     padding: 4px;
+  }
+  
+  .btn-signup-nav {
+    display: none; /* Hide Sign Up on mobile to save space */
+  }
+  
+  .dashboard-layout, .main-content {
+    overflow-x: hidden; /* Prevent accidental horizontal scrolling */
   }
   
   .dash-topbar {
@@ -859,25 +896,6 @@ option {
   .dash-tab {
     padding: 8px 14px;
     flex-shrink: 0;
-  }
-  
-  .emp-banner {
-    flex-direction: column;
-    text-align: center;
-    gap: 16px;
-    padding: 20px;
-  }
-  
-  .emp-banner-stats {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-    width: 100%;
-  }
-  
-  .emp-banner-divider {
-    display: none;
   }
   
   .stats-bar-grid {
