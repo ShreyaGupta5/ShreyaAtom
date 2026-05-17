@@ -2,6 +2,9 @@
   "name": "atomshreya-root",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "build": "npm install --prefix frontend && npm run build --prefix frontend"
+  },
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "cors": "^2.8.6",
