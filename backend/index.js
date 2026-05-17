@@ -1,26 +1,29 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 const app = express();
+const router = express.Router();
 
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/health', (req, res) => {
+// Health Check
+router.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
 // Users
-app.get('/api/users', async (req, res) => {
+router.get('/users', async (req, res) => {
   const users = await prisma.user.findMany();
   res.json(users);
 });
 
 // Create basic test user if none exist
-app.post('/api/init', async (req, res) => {
+router.post('/init', async (req, res) => {
   const count = await prisma.user.count();
   if (count === 0) {
     const admin = await prisma.user.create({
@@ -39,28 +42,33 @@ app.post('/api/init', async (req, res) => {
 });
 
 // Goals
-app.get('/api/goals/:userId', async (req, res) => {
+router.get('/goals/:userId', async (req, res) => {
   const { userId } = req.params;
-  const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
-  
-  if (user.role === 'MANAGER') {
-    // Manager sees their team's goals
-    const goals = await prisma.goal.findMany({
-      where: { owner: { managerId: user.id } },
-      include: { owner: true }
-    });
-    return res.json(goals);
-  } else {
-    // Employee sees their own goals
-    const goals = await prisma.goal.findMany({
-      where: { ownerId: parseInt(userId) },
-      include: { owner: true }
-    });
-    return res.json(goals);
+  try {
+    const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    
+    if (user.role === 'MANAGER') {
+      // Manager sees their team's goals
+      const goals = await prisma.goal.findMany({
+        where: { owner: { managerId: user.id } },
+        include: { owner: true }
+      });
+      return res.json(goals);
+    } else {
+      // Employee sees their own goals
+      const goals = await prisma.goal.findMany({
+        where: { ownerId: parseInt(userId) },
+        include: { owner: true }
+      });
+      return res.json(goals);
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 });
 
-app.post('/api/goals', async (req, res) => {
+router.post('/goals', async (req, res) => {
   const { title, description, uom, target, weightage, ownerId } = req.body;
   try {
     const goal = await prisma.goal.create({
@@ -72,7 +80,7 @@ app.post('/api/goals', async (req, res) => {
   }
 });
 
-app.patch('/api/goals/:id', async (req, res) => {
+router.patch('/goals/:id', async (req, res) => {
   const { id } = req.params;
   const { title, description, uom, target, weightage, status } = req.body;
   try {
@@ -94,44 +102,48 @@ app.patch('/api/goals/:id', async (req, res) => {
 });
 
 // Check-ins
-app.get('/api/checkins/:userId', async (req, res) => {
+router.get('/checkins/:userId', async (req, res) => {
   const { userId } = req.params;
-  const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
-  
-  if (user.role === 'MANAGER') {
-    const checkIns = await prisma.checkIn.findMany({
-      where: { goal: { owner: { managerId: user.id } } },
-      include: { goal: { include: { owner: true } } }
-    });
-    return res.json(checkIns);
-  } else {
-    const checkIns = await prisma.checkIn.findMany({
-      where: { goal: { ownerId: parseInt(userId) } },
-      include: { goal: true }
-    });
-    return res.json(checkIns);
+  try {
+    const user = await prisma.user.findUnique({ where: { id: parseInt(userId) } });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    
+    if (user.role === 'MANAGER') {
+      const checkIns = await prisma.checkIn.findMany({
+        where: { goal: { owner: { managerId: user.id } } },
+        include: { goal: { include: { owner: true } } }
+      });
+      return res.json(checkIns);
+    } else {
+      const checkIns = await prisma.checkIn.findMany({
+        where: { goal: { ownerId: parseInt(userId) } },
+        include: { goal: true }
+      });
+      return res.json(checkIns);
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 });
 
-app.post('/api/checkins', async (req, res) => {
+router.post('/checkins', async (req, res) => {
   const { goalId, quarter, actual } = req.body;
-  
-  const goal = await prisma.goal.findUnique({ where: { id: parseInt(goalId) } });
-  if (!goal) return res.status(404).json({ error: 'Goal not found' });
-  
-  // Calculate status logic
-  let status = "Not Started";
-  let actualVal = parseFloat(actual);
-  
-  if (goal.uom === 'Numeric' || goal.uom === 'Max') {
-    if (actualVal >= goal.target) status = "Completed";
-    else if (actualVal > 0) status = "On Track";
-  } else if (goal.uom === 'Zero') {
-    if (actualVal === 0) status = "Completed";
-    else status = "On Track"; // Or needs attention depending on business logic
-  }
-
   try {
+    const goal = await prisma.goal.findUnique({ where: { id: parseInt(goalId) } });
+    if (!goal) return res.status(404).json({ error: 'Goal not found' });
+    
+    // Calculate status logic
+    let status = "Not Started";
+    let actualVal = parseFloat(actual);
+    
+    if (goal.uom === 'Numeric' || goal.uom === 'Max') {
+      if (actualVal >= goal.target) status = "Completed";
+      else if (actualVal > 0) status = "On Track";
+    } else if (goal.uom === 'Zero') {
+      if (actualVal === 0) status = "Completed";
+      else status = "On Track";
+    }
+
     const checkIn = await prisma.checkIn.upsert({
       where: { goalId_quarter: { goalId: parseInt(goalId), quarter } },
       update: { actual: actualVal, status },
@@ -149,7 +161,7 @@ app.post('/api/checkins', async (req, res) => {
   }
 });
 
-app.patch('/api/checkins/:id', async (req, res) => {
+router.patch('/checkins/:id', async (req, res) => {
   const { id } = req.params;
   const { comment } = req.body;
   try {
@@ -163,8 +175,8 @@ app.patch('/api/checkins/:id', async (req, res) => {
   }
 });
 
-// System Stats for Reports Tab (Admin & Manager)
-app.get('/api/stats', async (req, res) => {
+// System Stats for Reports Tab
+router.get('/stats', async (req, res) => {
   try {
     const totalUsers = await prisma.user.count({ where: { role: 'EMPLOYEE' } });
     const totalGoals = await prisma.goal.count();
@@ -178,7 +190,6 @@ app.get('/api/stats', async (req, res) => {
     const q4Count = await prisma.checkIn.count({ where: { quarter: 'Q4' } });
     const annualCount = await prisma.checkIn.count({ where: { quarter: 'Annual' } });
 
-    // Average progress calculation
     const checkIns = await prisma.checkIn.findMany();
     const avgProgress = checkIns.length > 0 
       ? Math.round((checkIns.reduce((sum, ci) => sum + (ci.planned > 0 ? (ci.actual / ci.planned) : 0), 0) / checkIns.length) * 100)
@@ -202,26 +213,42 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, async () => {
-  console.log(`Server running on port ${PORT}`);
-  
-  // Auto-initialize test users if none exist on startup
-  try {
-    const count = await prisma.user.count();
-    if (count === 0) {
-      const admin = await prisma.user.create({
-        data: { email: 'admin@atom.com', password: 'password', name: 'Admin User', role: 'ADMIN' }
-      });
-      const manager = await prisma.user.create({
-        data: { email: 'manager@atom.com', password: 'password', name: 'Manager User', role: 'MANAGER' }
-      });
-      const employee = await prisma.user.create({
-        data: { email: 'employee@atom.com', password: 'password', name: 'Employee User', role: 'EMPLOYEE', managerId: manager.id }
-      });
-      console.log('Default test users successfully auto-initialized on startup!');
-    }
-  } catch (error) {
-    console.error('Failed to auto-initialize test users:', error.message);
-  }
+// Mount router for both local dev and Netlify functions
+app.use('/api', router);
+app.use('/.netlify/functions/api', router);
+
+// Serve static assets from the React frontend build
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// Wildcard fallback middleware to serve index.html for React Router
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
+
+module.exports = app;
+
+if (!process.env.NETLIFY) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, async () => {
+    console.log(`Server running on port ${PORT}`);
+    
+    // Auto-initialize test users if none exist on startup
+    try {
+      const count = await prisma.user.count();
+      if (count === 0) {
+        const admin = await prisma.user.create({
+          data: { email: 'admin@atom.com', password: 'password', name: 'Admin User', role: 'ADMIN' }
+        });
+        const manager = await prisma.user.create({
+          data: { email: 'manager@atom.com', password: 'password', name: 'Manager User', role: 'MANAGER' }
+        });
+        const employee = await prisma.user.create({
+          data: { email: 'employee@atom.com', password: 'password', name: 'Employee User', role: 'EMPLOYEE', managerId: manager.id }
+        });
+        console.log('Default test users successfully auto-initialized on startup!');
+      }
+    } catch (error) {
+      console.error('Failed to auto-initialize test users:', error.message);
+    }
+  });
+}
