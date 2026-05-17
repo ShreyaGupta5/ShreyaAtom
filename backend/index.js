@@ -203,6 +203,25 @@ app.get('/api/stats', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
+  
+  // Auto-initialize test users if none exist on startup
+  try {
+    const count = await prisma.user.count();
+    if (count === 0) {
+      const admin = await prisma.user.create({
+        data: { email: 'admin@atom.com', password: 'password', name: 'Admin User', role: 'ADMIN' }
+      });
+      const manager = await prisma.user.create({
+        data: { email: 'manager@atom.com', password: 'password', name: 'Manager User', role: 'MANAGER' }
+      });
+      const employee = await prisma.user.create({
+        data: { email: 'employee@atom.com', password: 'password', name: 'Employee User', role: 'EMPLOYEE', managerId: manager.id }
+      });
+      console.log('Default test users successfully auto-initialized on startup!');
+    }
+  } catch (error) {
+    console.error('Failed to auto-initialize test users:', error.message);
+  }
 });
