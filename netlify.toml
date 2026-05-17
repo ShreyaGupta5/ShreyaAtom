@@ -1,0 +1,7 @@
+[build]
+  command = "cd frontend && npm install && npm run build && cd ../backend && npm install && npx prisma generate"
+  publish = "frontend/dist"
+
+[functions]
+  directory = "backend/functions"
+  node_bundler = "esbuild"
