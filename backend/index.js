@@ -217,9 +217,14 @@ router.get('/stats', async (req, res) => {
 app.use('/api', router);
 app.use('/.netlify/functions/api', router);
 
+// Redirect root to frontend
+app.get('/', (req, res) => {
+  res.redirect('https://shreya-atom-frontend.onrender.com');
+});
+
 // Fallback route for non-API requests
 app.use((req, res) => {
-  res.json({ message: "AtomQuest Compliance API Gateway is active." });
+  res.status(404).json({ error: "AtomQuest Compliance API Endpoint Not Found" });
 });
 
 module.exports = app;
