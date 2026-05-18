@@ -5,8 +5,7 @@ import Dashboard from './components/Dashboard';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import axios from 'axios';
-
-const API_BASE = import.meta.env.VITE_API_URL;
+import { API_BASE } from './api';
 
 function App() {
   const [user, setUser] = useState(null);

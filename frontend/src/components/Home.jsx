@@ -47,7 +47,7 @@ const Home = () => {
             </p>
             
             {/* Core Values grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <div className="home-grid-2">
               <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                 <div style={{ padding: '8px', background: 'rgba(0, 245, 212, 0.08)', borderRadius: '8px', color: 'var(--primary-color)', border: '1px solid rgba(0, 245, 212, 0.2)' }}>
                   <ShieldCheck size={18} />
@@ -79,7 +79,7 @@ const Home = () => {
           <div className="header-line" style={{ marginTop: '16px' }}></div>
         </div>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', maxWidth: '1200px', margin: '0 auto' }}>
+        <div className="home-grid-4">
           
           {/* Pillar 1: Alignment & Clarity */}
           <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', padding: '32px 24px', border: '1px solid rgba(0, 245, 212, 0.15)', boxShadow: '0 4px 20px rgba(0, 245, 212, 0.05)' }}>
@@ -148,7 +148,7 @@ const Home = () => {
           <div className="header-line" style={{ marginTop: '16px' }}></div>
         </div>
         
-        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '60px', alignItems: 'center' }}>
+        <div className="home-grid-1-2">
           
           {/* Governance Details Column */}
           <div style={{ display: 'grid', gap: '32px' }}>
@@ -190,7 +190,7 @@ const Home = () => {
           </div>
 
           {/* Graphical Governance Panel */}
-          <div className="glass-card" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', padding: '40px', border: '1px solid rgba(255, 255, 255, 0.1)', background: 'rgba(30, 41, 59, 0.4)' }}>
+          <div className="glass-card home-grid-inner" style={{ padding: '40px', border: '1px solid rgba(255, 255, 255, 0.1)', background: 'rgba(30, 41, 59, 0.4)' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div style={{ borderLeft: '3px solid var(--primary-color)', paddingLeft: '16px' }}>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>Privilege Scopes</span>
